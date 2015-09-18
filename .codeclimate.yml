@@ -35,9 +35,9 @@ engines:
 
 # Note: If the ratings key is not specified, this will result in a 0.0 GPA on your dashboard.
 
-# ratings:
-#   paths:
-#   - app/**
+ ratings:
+   paths:
+   - *.rb
 #   - lib/**
 #   - "**.rb"
 #   - "**.go"
