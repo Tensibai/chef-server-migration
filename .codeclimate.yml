@@ -39,7 +39,7 @@ engines:
    paths:
    - *.rb
 #   - lib/**
-#   - "**.rb"
+   - "**.rb"
 #   - "**.go"
 
 # You can globally exclude files from being analyzed by any engine using the
