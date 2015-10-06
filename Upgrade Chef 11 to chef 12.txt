@@ -10,9 +10,11 @@ file */metadata.rb | grep CRLF | cut -d ':' -f 1 | xargs fromdos
 
 # Convert from ISO-8859 to UTF8
 for myf in `file */metadata.rb | grep ISO-88 | cut -d ':' -f 1`; do iconv -f ISO-8859-1 -t UTF8 $myf -o ${myf}.new; mv ${myf}.new $myf; done
+for myf in `file */*.md | grep ISO-88 | cut -d ':' -f 1`; do iconv -f ISO-8859-1 -t UTF8 $myf -o ${myf}.new; mv ${myf}.new $myf; done
+
 
 # Add name entry to cookbooks without it
-grep -L 'name ' */metadata.rb | awk -F[/] -v OFS="" '{ n=$1;gsub(/-([0-9][.]?)+/,"",n); cmdline="sed -i \"1s/^/name    \\\""n"\\\"\\n/\" "$FILENAME; system(cmdline) }'
+grep -Le '^name ' */metadata.rb | awk -F[/] -v OFS="" '{ n=$1;gsub(/-([0-9][.]?)+/,"",n); cmdline="sed -i \"1s/^/name    \\\""n"\\\"\\n/\" "$FILENAME; system(cmdline) }'
 
 # Validate cookbook name match folder name
 grep -e '^name ' */metadata.rb | awk -F"[:/]" '{ dname=$1; gsub(/-([0-9]+[.]*)+$/,"",dname); split($3,mname,/[ \t]+/); gsub(/["\047]/,"",mname[2]); if (dname != mname[2]) { cmdline="sed -i \"s/name  *[\\\"\047]" mname[2] "[\\\"\047]/name \\\"" dname"\\\"/\" " $1"/"$2; system(cmdline) } }'
